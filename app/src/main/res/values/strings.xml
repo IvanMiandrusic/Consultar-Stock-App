@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Consultor Stock</string>
+    <string name="buscar">Buscar</string>
+    <string name="consultar">CONSULTAR</string>
+    <string name="agregar">AGREGAR</string>
+    <string name="un_articulo">Un Articulo</string>
+    <string name="articulo">Articulo: </string>
+    <string name="marca">Marca: </string>
+    <string name="precio_de_compra">Precio de Compra: </string>
+    <string name="precio_para_la_venta">Precio de Venta: </string>
+    <string name="agregar_producto">Agregar Producto</string>
+    <string name="modificar">Modificar</string>
+    <string name="eliminar">Eliminar</string>
+</resources>
