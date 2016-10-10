@@ -68,12 +68,13 @@ public class ConsultarAct extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnModif:
-                sb = new StringBuffer();
-                if(prodAdpt.getCheckedProd().size()>1 && prodAdpt.getCheckedProd().size()>0){
+                if(prodAdpt.getCheckedProd().size()>1){
                     Toast.makeText(this, "Solo se puede seleccionar 1 producto para ser modificado", Toast.LENGTH_SHORT).show();
-                }else{
+                }else if(prodAdpt.getCheckedProd().size()>0){
                     /*TODO: TIRAR UN EXTRA A LA ACTIVITY DE MODIFICACION*/
                     Toast.makeText(this, "Modificacion en Construccion :)", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(this, "Seleccione un elemento para modificar", Toast.LENGTH_SHORT).show();
                 }
                 break;
 
@@ -81,7 +82,7 @@ public class ConsultarAct extends Activity implements View.OnClickListener {
                 for(Product p : prodAdpt.getCheckedProd())
                 {
                     MainActivity.managerProducts.eliminar(p.getId());
-                    inicializarRecicler();
+                    cargarRecycler();
                     Toast.makeText(this, "Los Productos han sido eliminados exitosamente", Toast.LENGTH_SHORT).show();
                 }
                 break;
