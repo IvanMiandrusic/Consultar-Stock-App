@@ -11,4 +11,6 @@
     <string name="agregar_producto">Agregar Producto</string>
     <string name="modificar">Modificar</string>
     <string name="eliminar">Eliminar</string>
+    <string name="guardar">Guardar</string>
+    <string name="cancelar">Cancelar</string>
 </resources>

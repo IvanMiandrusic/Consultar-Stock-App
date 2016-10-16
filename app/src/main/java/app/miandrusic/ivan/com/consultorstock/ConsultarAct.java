@@ -1,6 +1,7 @@
 package app.miandrusic.ivan.com.consultorstock;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import adapters.ProductAdapter;
@@ -16,6 +18,8 @@ import db.dbManagerProducts;
 import model.Product;
 
 public class ConsultarAct extends Activity implements View.OnClickListener {
+
+    private static final int ID = 1;
 
     private Button btnBuscar, btnModif, btnEliminar;
     private RecyclerView recycler;
@@ -71,14 +75,17 @@ public class ConsultarAct extends Activity implements View.OnClickListener {
                 if(prodAdpt.getCheckedProd().size()>1){
                     Toast.makeText(this, "Solo se puede seleccionar 1 producto para ser modificado", Toast.LENGTH_SHORT).show();
                 }else if(prodAdpt.getCheckedProd().size()>0){
-                    /*TODO: TIRAR UN EXTRA A LA ACTIVITY DE MODIFICACION*/
-                    Toast.makeText(this, "Modificacion en Construccion :)", Toast.LENGTH_SHORT).show();
+
+                    Product prodAMod = prodAdpt.getCheckedProd().get(0);
+                    Intent i = new Intent(this, ModifActivity.class);
+                    cargarIntent(i, prodAMod);
+
                 }else{
                     Toast.makeText(this, "Seleccione un elemento para modificar", Toast.LENGTH_SHORT).show();
                 }
                 break;
 
-            case R.id.btnEliminar: /*TODO:*/
+            case R.id.btnEliminar:
                 for(Product p : prodAdpt.getCheckedProd())
                 {
                     MainActivity.managerProducts.eliminar(p.getId());
@@ -93,9 +100,26 @@ public class ConsultarAct extends Activity implements View.OnClickListener {
         }
     }
 
-    private void cargarRecycler(){
+    public void cargarRecycler(){
         listItemsProd = MainActivity.managerProducts.getProductosList();
         prodAdpt = new ProductAdapter(this, listItemsProd);
         recycler.setAdapter(prodAdpt);
+    }
+
+    private void cargarIntent(Intent i, Product p){
+        i.putExtra("id", p.getId());
+        i.putExtra("art", p.getArticulo());
+        i.putExtra("marca", p.getMarca());
+        i.putExtra("prec_compra", p.getPrecio_compra());
+        i.putExtra("prec_venta", p.getPrecio_venta());
+        startActivityForResult(i, ID);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && requestCode == ID){
+            this.cargarRecycler();
+        }
     }
 }

@@ -17,7 +17,8 @@
         </activity>
         <activity android:name=".ConsultarActivity" />
         <activity android:name=".AgregarActivity" />
-        <activity android:name=".ConsultarAct"></activity>
+        <activity android:name=".ConsultarAct" />
+        <activity android:name=".ModifActivity"/>
     </application>
 
 </manifest>
