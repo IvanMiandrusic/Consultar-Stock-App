@@ -2,12 +2,15 @@ package app.miandrusic.ivan.com.consultorstock;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -50,6 +53,27 @@ public class ConsultarAct extends Activity implements View.OnClickListener {
         btnEliminar.setOnClickListener(this);
     }
 
+    private void buscarProd(){
+        EditText edt = (EditText) findViewById(R.id.edtBuscar_Cons);
+        RadioButton rbM = (RadioButton) findViewById(R.id.rbmarca);
+        RadioButton rbA = (RadioButton) findViewById(R.id.rbArtic);
+        String dato = edt.getText().toString();
+        if(!(dato.isEmpty())){
+            if(rbM.isChecked()){
+                List<Product> listP = MainActivity.managerProducts.buscarItem(dato, "marca");
+                cargarRecycler(listP);
+            }else if(rbA.isChecked()){
+                List<Product> listP = MainActivity.managerProducts.buscarItem(dato, "articulo");
+                cargarRecycler(listP);
+            }else{
+                Toast.makeText(this, "Debe seleccionar el tipo de busqueda", Toast.LENGTH_SHORT).show();
+            }
+
+        }else{
+            Toast.makeText(this, "El campo de busqueda esta vacio!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void inicializarRecicler() {
         //Obtener Lista de Productos
         listItemsProd = MainActivity.managerProducts.getProductosList();
@@ -89,20 +113,20 @@ public class ConsultarAct extends Activity implements View.OnClickListener {
                 for(Product p : prodAdpt.getCheckedProd())
                 {
                     MainActivity.managerProducts.eliminar(p.getId());
-                    cargarRecycler();
+                    listItemsProd = MainActivity.managerProducts.getProductosList();
+                    cargarRecycler(listItemsProd);
                     Toast.makeText(this, "Los Productos han sido eliminados exitosamente", Toast.LENGTH_SHORT).show();
                 }
                 break;
 
             case R.id.btnBuscar:
-                cargarRecycler();
+                buscarProd();
                 break;
         }
     }
 
-    public void cargarRecycler(){
-        listItemsProd = MainActivity.managerProducts.getProductosList();
-        prodAdpt = new ProductAdapter(this, listItemsProd);
+    public void cargarRecycler(List<Product> list){
+        prodAdpt = new ProductAdapter(this, list);
         recycler.setAdapter(prodAdpt);
     }
 
@@ -119,7 +143,8 @@ public class ConsultarAct extends Activity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK && requestCode == ID){
-            this.cargarRecycler();
+            listItemsProd = MainActivity.managerProducts.getProductosList();
+            this.cargarRecycler(listItemsProd);
         }
     }
 }

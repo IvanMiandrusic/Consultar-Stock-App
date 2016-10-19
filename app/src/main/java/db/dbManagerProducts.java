@@ -89,7 +89,6 @@ public class dbManagerProducts extends dbManager{
     @Override
     public Boolean comprobarRegistro(String id) {
         boolean esta = false;
-
         Cursor resultSet = super.getDb().rawQuery("SELECT * FROM "+NOMBRE_TABLA+" WHERE "+PR_ID+" = "+id, null);
 
         if(resultSet.getCount() <=0){
@@ -100,11 +99,21 @@ public class dbManagerProducts extends dbManager{
         return esta;
     }
 
+    public List<Product> buscarItem(String dato, String campo){
+        Cursor c = super.getDb().rawQuery("SELECT * FROM "+NOMBRE_TABLA+" WHERE "+campo+" = '"+dato+"'", null);
+        return crearListaProdDeCursor(c);
+    }
+
+
+
     public List<Product> getProductosList(){
-
-        List<Product> lista = new ArrayList<>();
         Cursor c = this.cargarCursor();
+        return crearListaProdDeCursor(c);
 
+    }
+
+    public List<Product> crearListaProdDeCursor(Cursor c){
+        List<Product> l = new ArrayList<>();
         while(c.moveToNext()){
             Product prod = new Product();
 
@@ -114,9 +123,8 @@ public class dbManagerProducts extends dbManager{
             prod.setPrecio_compra(c.getString(3));
             prod.setPrecio_venta(c.getString(4));
 
-            lista.add(prod);
+            l.add(prod);
         }
-        return lista;
+        return l;
     }
-
 }

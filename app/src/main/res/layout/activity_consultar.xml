@@ -19,7 +19,7 @@
         <EditText
             android:layout_width="146dp"
             android:layout_height="wrap_content"
-            android:id="@+id/editText5"
+            android:id="@+id/edtBuscar_Cons"
             android:hint="Buscar Articulo/Marca"
             android:layout_weight="0.64" />
 
@@ -47,13 +47,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/marca"
-                android:id="@+id/radioButton" />
+                android:id="@+id/rbmarca" />
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/un_articulo"
-                android:id="@+id/radioButton2"
+                android:id="@+id/rbArtic"
                 android:layout_marginLeft="10dp" />
         </RadioGroup>
 
